@@ -2,14 +2,36 @@ import { Check, ChevronLeft, ChevronRight } from 'lucide-react'
 import React from 'react'
 import { useFormContext } from '../context/ReportFormContext'
 import { stepIcons } from '../utility/icon';
+import LocationInfoStep from './LocationInfoStep';
+import IncidentSection from './IncidentSection';
+import PersonalInfo from './PersonalInfo';
+import EvidenceInfo from './EvidenceInfo';
 
 export default function ReportingForm() {
 
     //call context hook
-    const{steps,currentStep}=useFormContext();
+  const{steps,currentStep}=useFormContext();
+
+  //form steps return functions
+  const retrieveStepContent=()=>{
+
+    switch(currentStep){
+        case 1:
+            return <LocationInfoStep/>;
+        case 2:
+            return <IncidentSection/>;
+        case 3:
+            return <EvidenceInfo/>;
+        case 4:
+            return <PersonalInfo/>;
+        default:
+            return null;
+
+    }
+  }
  
   return (
-    <div className='max-w-5xl mx-auto p-6'>
+    <div className='max-w-4xl mx-auto p-6'>
         <div className='mb-12'>
         <div className='flex items-center justify-between mb-6'>
 
@@ -60,22 +82,28 @@ export default function ReportingForm() {
         </div>
 
         {/*Form Content*/}
-        <div className='bg-stone-100 backdrop-blur-sm rounded-full shadow-2xl border-stone-300/50 p-10 mb-10'>
-            <div className='min-h-[600]'></div>
+        <div className='bg-stone-100 backdrop-blur-sm rounded-2xl shadow-2xl border-stone-300/50 p-10 mb-10'>
+            <div className='min-h-[600]'>{retrieveStepContent()}</div>
         </div>
 
         {/*forward and back*/}
-        <div className='flex justify-between items-center'>
-            <button className={`flex items-center px-8 py-4 rounded-2xl font-semibold transition-all duration-200`}>
+        <div className='flex justify-between items-center '>
+            <button className={`flex items-center px-8 py-4 rounded-2xl font-semibold transition-all duration-200 ${currentStep===1?"bg-gray-100 text-gray-400 cursor-not-allowed ": "hover:bg-gray-50 shadow-lg hover:shadow-xl border border-gray-200 text-cyan-700 transform hover:translate-y-1:"}`}>
                 <ChevronLeft className='w-5 h-5 mr-2'/>Previous
             </button>
-            <button className={`flex items-center px-8 py-4 rounded-2xl font-semibold transition-all duration-200`}>
-                Back<ChevronRight className='w-5 h-5 mr-2'/>
-            </button>
-{/*
-            <button className='flex items-center px-10 py-4 bg-gradient-to-r  from-cyan-500 to-cyan-700 text-white rounded-2xl font-semibold hover:from-cyan-900 hover:to-blue-900 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:translate-y-1'>
+            {currentStep<steps.length?(
+                <button className={`flex items-center px-8 py-4 rounded-2xl font-semibold 
+                bg-gradient-to-r  from-cyan-500 to-cyan-700 transition-all duration-200 text-slate-100 hover:shadow-xl transform hover:translate-y-1`}>
+                    Continue<ChevronRight className='w-5 h-5 mr-2'/>
+                </button>
+            ):(
+                <button className='flex items-center px-10 py-4 bg-gradient-to-r  from-cyan-500 to-cyan-700 text-white rounded-2xl font-semibold hover:from-cyan-900 hover:to-blue-900 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:translate-y-1'>
                 Submit Report
-            </button>*/}
+            </button>
+            )}
+            
+
+            
         </div>
     </div>
   )
