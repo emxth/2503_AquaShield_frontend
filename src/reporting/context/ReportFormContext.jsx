@@ -5,7 +5,30 @@ const ReportFormContext=createContext();
 export const useFormContext=()=>useContext(ReportFormContext);
 
 export const FormProvider=({children})=>{
-    const[currentStep,setCurrentStep]=useState(3);
+    const[currentStep,setCurrentStep]=useState(1);
+    const[error,setErrors]=useState({});
+    const[formData,setFormData]=useState({
+        locationInfo:{
+            lt:"",
+            lng:"",
+            description:"",
+
+        },
+        incidentInfo:{
+            incidentDate:"",
+            incidentTime:"",
+            incidentType:"",
+            species:"",
+
+        },
+        evidences:[],
+        personalInfo:{
+            name:"",
+            mobile:"",
+            annonimity:true
+        }
+
+    })
 
     const steps=[
         {id:1, title:"Location Info",description:"Location Info"},
