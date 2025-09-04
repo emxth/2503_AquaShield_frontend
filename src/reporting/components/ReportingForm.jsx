@@ -32,6 +32,7 @@ export default function ReportingForm() {
  
   return (
     <div className='max-w-4xl mx-auto p-6'>
+        <p className='text-2xl text-cyan-700 mb-3 font-[Lexend] font-semibold text-center'>Report Illeagal Fishing Activity</p>
         <div className='mb-12'>
         <div className='flex items-center justify-between mb-6'>
 

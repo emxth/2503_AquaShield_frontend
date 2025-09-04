@@ -2,6 +2,8 @@ import logo from './logo.svg';
 import './App.css';
 import ReportingForm from './reporting/components/ReportingForm';
 import { FormProvider } from './reporting/context/ReportFormContext';
+import ReportDetails from './reporting/components/MyReport';
+import MyReport from './reporting/components/MyReport';
 
 function App() {
   return (
@@ -19,10 +21,11 @@ function App() {
         >
           Learn React
         </a>
-      </header>*/}
+      </header>
       <FormProvider>
         <ReportingForm />
-      </FormProvider>
+      </FormProvider>*/}
+      <MyReport />
 
     </div>
   );
