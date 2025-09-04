@@ -51,7 +51,7 @@ const MyReport = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
         <div className='text-center flex justify-center items-center'>
-            <h2 className='text-2xl mt-5  text-cyan-700 mb-3 font-[Lexend] font-semibold text-center'>Report Details</h2>
+            <h2 className='text-2xl mt-5  text-cyan-700 mb-3 font-[Lexend] font-semibold text-center'>My Reports</h2>
         </div>
 
      

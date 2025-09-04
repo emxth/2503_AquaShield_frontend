@@ -4,6 +4,8 @@ import ReportingForm from './reporting/components/ReportingForm';
 import { FormProvider } from './reporting/context/ReportFormContext';
 import ReportDetails from './reporting/components/MyReport';
 import MyReport from './reporting/components/MyReport';
+import ReportInfo from './reporting/components/ReportInfo';
+
 
 function App() {
   return (
@@ -24,8 +26,10 @@ function App() {
       </header>
       <FormProvider>
         <ReportingForm />
-      </FormProvider>*/}
-      <MyReport />
+      </FormProvider>
+      <MyReport />*/}
+      <ReportInfo />
+
 
     </div>
   );
