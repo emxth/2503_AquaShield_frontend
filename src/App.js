@@ -4,7 +4,7 @@ import './index.css' // Tailwind CSS is imported
 import Hero from './components/Hero';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import { DashboardContent } from './components/admin_dashboard/DashboardContent';
+import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
 
         <Route path='/admin' element={
           <>
-            <DashboardContent />
+            <AdminDashboard />
           </>
         } />
       </Routes>
