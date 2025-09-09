@@ -38,7 +38,7 @@ export function AdminSidebar({ currentView, onViewChange }) {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarContent className="border-r bg-card">
+      <SidebarContent className="mt-16 bg-card">
         {/* Brand Header */}
         <div className="p-6 border-b">
           <div className="flex items-center space-x-3">
@@ -62,7 +62,7 @@ export function AdminSidebar({ currentView, onViewChange }) {
                 <SidebarMenuItem key={item.id}>
                   <SidebarMenuButton
                     onClick={() => onViewChange(item.id)}
-                    className={`w-full justify-start ${
+                    className={`w-full justify-start px-4 h-16 mb-1 ${
                       currentView === item.id 
                         ? "bg-primary text-primary-foreground hover:bg-primary/90" 
                         : "hover:bg-muted"

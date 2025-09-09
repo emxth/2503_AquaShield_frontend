@@ -22,7 +22,7 @@ const allReports = [
 export function ReportListView() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [selectedReport, setSelectedReport] = useState < any > (null);
+  const [selectedReport, setSelectedReport] = useState(null);
 
   const filteredReports = allReports.filter(report => {
     const matchesSearch = report.species.toLowerCase().includes(searchTerm.toLowerCase()) ||
