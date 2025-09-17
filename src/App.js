@@ -17,7 +17,7 @@ function App() {
           <Route path="/speciesDashboard" element={<SpeciesDashboard />} />
           <Route path="/AddSpecies" element={<AddSpecies />} />
           <Route path="/viewAllSpecies" element={<ViewAllSpecies />} />
-          <Route path="/viewOneSpecies" element={<ViewOneSpecies />} />
+          <Route path="/viewOneSpecies/:id" element={<ViewOneSpecies />} />
           <Route path="/SpeciesAddRequest" element={<SpeciesAddRequest />} />
           <Route path="/AddNewSpeciesByRequest" element={<AddNewSpeciesByRequest />} />
         </Routes>

@@ -427,6 +427,8 @@ function AddSpecies() {
     if (Object.values(errors).some((err) => err)) return;
 
     try {
+      //FormmData - handle files and text fields
+      //Key value pairs send with fetch 
       const formData = new FormData();
       formData.append("scientificName", form.scientificName);
       formData.append("commonName", form.commonName);
