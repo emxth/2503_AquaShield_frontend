@@ -161,6 +161,8 @@ import axios from "axios";
 function ViewAllSpecies() {
   const [species, setSpecies] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [deleteId, setDeleteId] = useState(null); // species ID to delete
+  const [showConfirm, setShowConfirm] = useState(false); // modal visibility
   const navigate = useNavigate();
 
   // Fetch species from backend
@@ -179,16 +181,18 @@ function ViewAllSpecies() {
   }, []);
 
   // Filter species based on search
-  const filteredSpecies = species.filter((sp) =>
-    (sp.CommonName || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (sp.ScientificName || "").toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredSpecies = species.filter(
+    (sp) =>
+      (sp.CommonName || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (sp.ScientificName || "")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
   );
 
+  // Open modal for confirmation
   const handleDelete = (id) => {
-    // For now, just remove from frontend list
-    setSpecies(species.filter((sp) => sp._id !== id));
-    // Later, you can call backend delete API
-    // await axios.delete(`http://localhost:8081/species/delete/${id}`);
+    setDeleteId(id);
+    setShowConfirm(true);
   };
 
   const handleEdit = (id) => {
@@ -204,7 +208,7 @@ function ViewAllSpecies() {
       {/* Sidebar */}
       <div className="w-64 bg-[#0E6C91] text-white">
         <Navbar />
-      </div>  
+      </div>
 
       {/* Main Content */}
       <div className="flex-1 p-6 overflow-auto">
@@ -247,9 +251,7 @@ function ViewAllSpecies() {
                     >
                       <td className="px-4 py-2 border">{sp.CommonName || "-"}</td>
                       <td className="px-4 py-2 border">{sp.ScientificName || "-"}</td>
-                      <td className="px-4 py-2 border">
-                        {sp.ProtectionLevel || "-"}
-                      </td>
+                      <td className="px-4 py-2 border">{sp.ProtectionLevel || "-"}</td>
                       <td className="px-4 py-2 border">
                         {sp.ProtectionStatus ? "Yes" : "No"}
                       </td>
@@ -293,6 +295,42 @@ function ViewAllSpecies() {
           </div>
         </div>
       </div>
+
+      {/* Confirmation Modal */}
+      {showConfirm && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-xl p-6 w-96 text-center">
+            <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
+            <p className="mb-6">Are you sure you want to delete this species?</p>
+            <div className="flex justify-center space-x-4">
+              <button
+                onClick={async () => {
+                  try {
+                    await axios.delete(
+                      `http://localhost:8081/species/deleteSpecies/${deleteId}`
+                    );
+                    setSpecies(species.filter((sp) => sp._id !== deleteId));
+                    setShowConfirm(false);
+                  } catch (error) {
+                    console.error("Error deleting species:", error);
+                    alert("Failed to delete species.");
+                    setShowConfirm(false);
+                  }
+                }}
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+              >
+                Confirm
+              </button>
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
