@@ -538,8 +538,11 @@ function AddSpecies() {
                   }`}
                 >
                   <option value="">Select Category</option>
-                  <option value="Fish">Fish</option>
-                  <option value="Mammal">Mammal</option>
+                  <option value="Freshwater">Freshwater</option>
+                  <option value="Saltwater-Marine">Saltwater-Marine</option>
+                  <option value="Brackish-Fresh and Salt water Mix">Brackish-Fresh and Salt water Mix</option>
+                  <option value="Reef-associated">Reef-associated</option>
+                  <option value="Migratory">Migratory</option>
                 </select>
                 {errors.category && (
                   <span className="text-red-500 text-sm mt-1">{errors.category}</span>
@@ -555,8 +558,14 @@ function AddSpecies() {
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#17A9D3]"
                 >
                   <option value="">Select Level</option>
+                  <option value="Least Concern">Least Concern</option>
+                  <option value="Near Threatened">Near Threatened</option>
+                  <option value="Vulnerable">Vulnerable</option>
                   <option value="Endangered">Endangered</option>
-                  <option value="Common">Common</option>
+                  <option value="Critically Endangered">Critically Endangered</option>
+                  <option value="Extinct">Extinct</option>
+                  <option value="ComData Deficientmon">Data Deficient</option>
+                  <option value="Not Evaluated">Not Evaluated</option>
                 </select>
               </div>
             </div>
@@ -574,8 +583,15 @@ function AddSpecies() {
                   }`}
                 >
                   <option value="">Select Habitat</option>
-                  <option value="Freshwater">Freshwater</option>
-                  <option value="Marine">Marine</option>
+                  <option value="Rivers">Rivers</option>
+                  <option value="Lakes">Lakes</option>
+                  <option value="Ponds">Ponds</option>
+                  <option value="Streams">Streams</option>
+                  <option value="Ocean">Ocean</option>
+                  <option value="Open Sea">Open Sea</option>
+                  <option value="Coral Reef">Coral Reefs</option>
+                  <option value="Mangroves">Mangroves</option>
+                  <option value="Deep Sea">Deep Sea</option>
                 </select>
                 {errors.habitat && (
                   <span className="text-red-500 text-sm mt-1">{errors.habitat}</span>
