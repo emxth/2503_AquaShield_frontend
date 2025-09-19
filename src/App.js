@@ -7,6 +7,7 @@ import ViewAllSpecies from './SpeciesManagement/viewAllSpecies.js';
 import ViewOneSpecies from './SpeciesManagement/viewOneSpecies.js';
 import SpeciesAddRequest from './SpeciesManagement/speciesAddRequest.js';
 import AddNewSpeciesByRequest from './SpeciesManagement/addNewSpeciesByRequest.js';
+import AddNewSpeciesRequest from './SpeciesManagement/addSpeciesReqForm.js';
 
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
           <Route path="/viewAllSpecies" element={<ViewAllSpecies />} />
           <Route path="/viewOneSpecies/:id" element={<ViewOneSpecies />} />
           <Route path="/SpeciesAddRequest" element={<SpeciesAddRequest />} />
-          <Route path="/AddNewSpeciesByRequest" element={<AddNewSpeciesByRequest />} />
+          <Route path="/AddNewSpeciesByRequest/:id" element={<AddNewSpeciesByRequest />} />
+          <Route path="/AddSpeciesRequest" element={<AddNewSpeciesRequest />} />
         </Routes>
       </BrowserRouter>
     </div>

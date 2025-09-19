@@ -1,5 +1,5 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./components/SideNav.js";
 import {
@@ -10,44 +10,39 @@ import {
 } from "@heroicons/react/24/solid";
 
 function SpeciesAddRequest() {
-  // Sample requests data
-  const [requests, setRequests] = useState([
-    {
-      requester: "John Doe",
-      scientificName: "Panthera leo",
-      commonName: "Lion",
-      protectionStatus: "Endangered",
-    },
-    {
-      requester: "Jane Smith",
-      scientificName: "Amphiprioninae",
-      commonName: "Clownfish",
-      protectionStatus: "Common",
-    },
-    {
-      requester: "Alice Johnson",
-      scientificName: "Loxodonta",
-      commonName: "Elephant",
-      protectionStatus: "Endangered",
-    },
-  ]);
-
+  const [requests, setRequests] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
-  // Filter requests by requester name
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        const res = await axios.get("http://localhost:8081/speciesRequest/getAllSpeciesRequests");
+        setRequests(res.data);
+      } catch (err) {
+        console.error("Error fetching requests:", err);
+      }
+    };
+
+    fetchRequests();
+  }, []);
+
+  // Filter requests
   const filteredRequests = requests.filter((req) =>
-    req.requester.toLowerCase().includes(searchTerm.toLowerCase())
+    req.RequesterName?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleView = (index) => {
-    navigate(`/AddNewSpeciesByRequest`)
+  const handleView = (id) => {
+    navigate(`/AddNewSpeciesByRequest/${id}`);
   };
 
-  const handleDelete = (index) => {
-    const newRequests = [...requests];
-    newRequests.splice(index, 1);
-    setRequests(newRequests);
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(``);
+      setRequests(requests.filter((req) => req._id !== id));
+    } catch (err) {
+      console.error("Error deleting request:", err);
+    }
   };
 
   const handleExport = () => {
@@ -91,29 +86,30 @@ function SpeciesAddRequest() {
                   <th className="px-4 py-2 border">Scientific Name</th>
                   <th className="px-4 py-2 border">Common Name</th>
                   <th className="px-4 py-2 border">Protection Status</th>
+                  <th className="px-4 py-2 border">Request Status</th>
                   <th className="px-4 py-2 border">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredRequests.map((req, index) => (
-                  <tr
-                    key={index}
-                    className={index % 2 === 0 ? "bg-gray-50" : ""}
-                  >
-                    <td className="px-4 py-2 border">{req.requester}</td>
-                    <td className="px-4 py-2 border">{req.scientificName}</td>
-                    <td className="px-4 py-2 border">{req.commonName}</td>
-                    <td className="px-4 py-2 border">{req.protectionStatus}</td>
+                {filteredRequests.map((req) => (
+                  <tr key={req._id} className="bg-gray-50">
+                    <td className="px-4 py-2 border">{req.RequesterName}</td>
+                    <td className="px-4 py-2 border">{req.ScientificName}</td>
+                    <td className="px-4 py-2 border">{req.CommonName}</td>
+                    <td className="px-4 py-2 border">
+                      {req.ProtectionStatus ? "Protected" : "Not Protected"}
+                    </td>
+                    <td className="px-4 py-2 border">{req.RequestStatus}</td>
                     <td className="px-4 py-2 border flex justify-center space-x-2">
                       <button
                         className="bg-[#17A9D3] hover:bg-[#0E6C91] text-white p-2 rounded"
-                        onClick={() => handleView(index)}
+                        onClick={() => handleView(req._id)}
                       >
                         <EyeIcon className="h-4 w-4" />
                       </button>
                       <button
                         className="bg-red-500 hover:bg-red-600 text-white p-2 rounded"
-                        onClick={() => handleDelete(index)}
+                        onClick={() => handleDelete(req._id)}
                       >
                         <TrashIcon className="h-4 w-4" />
                       </button>
@@ -141,4 +137,3 @@ function SpeciesAddRequest() {
 }
 
 export default SpeciesAddRequest;
-
