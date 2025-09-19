@@ -8,6 +8,15 @@
 # testing
 /coverage
 
+# IDE & Editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
 # production
 /build
 

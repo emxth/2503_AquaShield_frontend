@@ -1,8 +1,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
-import { CheckCircle, Clock, MapPin, TrendingUp, FileText } from "lucide-react";
+import { CheckCircle, Clock, TrendingUp, FileText } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
+import ActivityMap from "./ActivityMap";
 
 const recentReports = [
   { id: "RPT-001", species: "Tuna", location: "Pacific Ocean", date: "2024-01-15", status: "pending" },
@@ -106,10 +107,10 @@ export function DashboardContent() {
                   <div className="space-y-1">
                     <div className="flex items-center space-x-2">
                       <span className="font-medium">{report.id}</span>
-                      <Badge 
+                      <Badge
                         variant={
-                          report.status === "approved" ? "default" : 
-                          report.status === "rejected" ? "destructive" : "secondary"
+                          report.status === "approved" ? "default" :
+                            report.status === "rejected" ? "destructive" : "secondary"
                         }
                       >
                         {report.status}
@@ -142,22 +143,14 @@ export function DashboardContent() {
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               Activity Map
-              <Button variant="outline" size="sm">
-                <MapPin className="w-4 h-4 mr-2" />
-                Full Map
-              </Button>
             </CardTitle>
             <CardDescription>
-              Global illegal fishing hotspots
+              Illegal fishing hotspots
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center justify-center h-64 border rounded-lg bg-gradient-wave">
-              <div className="space-y-2 text-center">
-                <MapPin className="w-12 h-12 mx-auto text-primary" />
-                <p className="text-sm text-muted-foreground">Interactive map view</p>
-                <p className="text-xs text-muted-foreground">Click "Full Map" to explore</p>
-              </div>
+            <div className="flex items-center justify-center border rounded-lg h-96">
+              <ActivityMap />
             </div>
           </CardContent>
         </Card>
