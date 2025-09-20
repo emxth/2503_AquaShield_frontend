@@ -57,7 +57,7 @@ export default function IncidentSection() {
 
             <div className='space-y-2'>
                 <label className='block text-lg text-cyan-700 font-[Inter] mb-1 font-semibold text-left'>
-                Date Of Incident
+                Time Of Incident
                 </label>
                 <div>
                     <input 
