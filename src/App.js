@@ -1,6 +1,9 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React from "react";
-import './App.css';
+import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import './index.css' // Tailwind CSS is imported
+import Hero from './components/Hero';
+import Header from './components/Header';
+import Footer from './components/Footer';
 import SpeciesDashboard from './SpeciesManagement/speciesDashboard.js';
 import AddSpecies from './SpeciesManagement/addSpecies.js';
 import ViewAllSpecies from './SpeciesManagement/viewAllSpecies.js';
@@ -11,9 +14,12 @@ import AddNewSpeciesRequest from './SpeciesManagement/addSpeciesReqForm.js';
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
+    <BrowserRouter>
+      <Header />
+
+      <Routes>
+        <Route path='/' element={<Hero />} />
+
           {/* species Managemnt */}
           <Route path="/speciesDashboard" element={<SpeciesDashboard />} />
           <Route path="/AddSpecies" element={<AddSpecies />} />
@@ -22,9 +28,10 @@ function App() {
           <Route path="/SpeciesAddRequest" element={<SpeciesAddRequest />} />
           <Route path="/AddNewSpeciesByRequest/:id" element={<AddNewSpeciesByRequest />} />
           <Route path="/AddSpeciesRequest" element={<AddNewSpeciesRequest />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+      </Routes>
+
+      <Footer />
+    </BrowserRouter>
   );
 }
 
