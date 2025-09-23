@@ -15,7 +15,9 @@ function AddNewSpeciesByRequest() {
   useEffect(() => {
     const fetchRequest = async () => {
       try {
-        const res = await axios.get(`http://localhost:8081/speciesRequest/getOneSpeciesRequests/${id}`);
+        const res = await axios.get(
+          `http://localhost:8081/speciesRequest/getOneSpeciesRequests/${id}`
+        );
         setRequest(res.data);
       } catch (err) {
         console.error("Error fetching request:", err);
@@ -34,18 +36,68 @@ function AddNewSpeciesByRequest() {
   };
 
   // Step 2: Submit message
-  const handleSubmitMessage = () => {
+  const handleSubmitMessage = async () => {
     if (!message.trim()) {
       alert("Please enter a message!");
       return;
     }
-    // Here you can also send message to backend or update request status
-    console.log("Action:", actionType, "Message to researcher:", message);
 
-    // Reset modal states
-    setShowMessageModal(false);
-    setMessage("");
-    alert(actionType === "reject" ? "Request rejected!" : "Species added!");
+    try {
+      if (actionType === "reject") {
+        // Update RequestMessage and RequestStatus to 'Rejected'
+        await axios.put(
+          `http://localhost:8081/speciesRequest/updateSpeciesRequestMessage/${id}`,
+          { RequestMessage: message }
+        );
+        await axios.put(
+          `http://localhost:8081/speciesRequest/updateStatus/${id}`,
+          { RequestStatus: "Rejected" }
+        );
+
+        alert("Request rejected and message sent!");
+      } else if (actionType === "add") {
+        // Update RequestMessage
+        await axios.put(
+          `http://localhost:8081/speciesRequest/updateSpeciesRequestMessage/${id}`,
+          { RequestMessage: message }
+        );
+
+        // Add new species to Species DB
+        const speciesData = {
+          scientificName: request.ScientificName,
+          commonName: request.CommonName,
+          speciesCategory: request.SpeciesCategory,
+          protectionLevel: request.ProtectionLevel,
+          habitat: request.Habitat,
+          protectionStatus: request.ProtectionStatus,
+          description: request.Description,
+          updatedDate: request.updatedDate,
+        };
+
+        if (request.ImageURL) {
+          speciesData.ImageURL = request.ImageURL;
+        }
+
+        await axios.post(
+          `http://localhost:8081/species/add`,
+          speciesData
+        );
+
+        // Update RequestStatus to 'Approved'
+        await axios.put(
+          `http://localhost:8081/speciesRequest/updateStatus/${id}`,
+          { RequestStatus: "Approved" }
+        );
+
+        alert("Species added and message updated!");
+      }
+    } catch (err) {
+      console.error("Error processing action:", err);
+      alert("Failed to complete action. Check console.");
+    } finally {
+      setShowMessageModal(false);
+      setMessage("");
+    }
   };
 
   return (
@@ -85,7 +137,6 @@ function AddNewSpeciesByRequest() {
               { label: "Protection Level", value: request.ProtectionLevel, key: "ProtectionLevel" },
               { label: "Habitat", value: request.Habitat, key: "Habitat" },
               { label: "Updated Date", value: new Date(request.updatedDate).toLocaleDateString(), key: "updatedDate" },
-              { label: "Request Status", value: request.RequestStatus, key: "RequestStatus" },
             ].map((field) => (
               <div className="flex flex-col" key={field.key}>
                 <label className="text-lg font-semibold text-[#0E6C91] mb-1 text-left mt-5">
@@ -104,6 +155,58 @@ function AddNewSpeciesByRequest() {
                 />
               </div>
             ))}
+
+            {/* Request Status */}
+            <div className="flex flex-col">
+              <label className="text-lg font-semibold text-[#0E6C91] mb-1 text-left mt-5">
+                Request Status
+              </label>
+              {isEdit ? (
+                <>
+                  <select
+                    value={request.RequestStatus}
+                    onChange={(e) =>
+                      setRequest((prev) => ({
+                        ...prev,
+                        RequestStatus: e.target.value,
+                      }))
+                    }
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="In Review">In Review</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                    <option value="Archived">Archived</option>
+                  </select>
+
+                  <button
+                    className="mt-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg"
+                    onClick={async () => {
+                      try {
+                        await axios.put(
+                          `http://localhost:8081/speciesRequest/updateStatus/${id}`,
+                          { RequestStatus: request.RequestStatus }
+                        );
+                        alert("Request status updated successfully!");
+                      } catch (err) {
+                        console.error("Error updating status:", err);
+                        alert("Failed to update status");
+                      }
+                    }}
+                  >
+                    Update Status
+                  </button>
+                </>
+              ) : (
+                <input
+                  type="text"
+                  value={request.RequestStatus}
+                  readOnly
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-100"
+                />
+              )}
+            </div>
 
             <div className="flex items-center mt-4 md:mt-0">
               <input
@@ -130,7 +233,9 @@ function AddNewSpeciesByRequest() {
               rows="4"
               value={request.Description}
               readOnly={!isEdit}
-              onChange={(e) => setRequest((prev) => ({ ...prev, Description: e.target.value }))}
+              onChange={(e) =>
+                setRequest((prev) => ({ ...prev, Description: e.target.value }))
+              }
               className={`w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 ${
                 isEdit ? "focus:ring-blue-500 bg-white" : "bg-gray-100"
               }`}
@@ -198,7 +303,9 @@ function AddNewSpeciesByRequest() {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-xl shadow-lg p-8 w-96 text-center space-y-6">
             <h2 className="text-2xl font-bold text-[#0E6C91]">
-              {actionType === "reject" ? "Reason for Rejection" : "Message to Researcher"}
+              {actionType === "reject"
+                ? "Reason for Rejection"
+                : "Message to Researcher"}
             </h2>
             <textarea
               rows="4"
@@ -214,7 +321,9 @@ function AddNewSpeciesByRequest() {
             <div className="flex justify-center gap-4">
               <button
                 className={`${
-                  actionType === "reject" ? "bg-red-500 hover:bg-red-600" : "bg-blue-500 hover:bg-blue-600"
+                  actionType === "reject"
+                    ? "bg-red-500 hover:bg-red-600"
+                    : "bg-blue-500 hover:bg-blue-600"
                 } text-white font-semibold py-2 px-6 rounded-lg`}
                 onClick={handleSubmitMessage}
               >
