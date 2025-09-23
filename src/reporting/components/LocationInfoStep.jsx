@@ -1,13 +1,30 @@
 
 import { MapPin } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { MapContainer, TileLayer } from 'react-leaflet'
 import LocationPicker from './LocationPicker';
+import { useFormContext } from '../context/ReportFormContext';
 
 
 export default function LocationInfoStep() {
 
     const [location,setLocation]=useState(null);
+
+    const{formData,setFormData,error}=useFormContext();
+    
+    const handleSelectLocation=(e)=>{
+
+        setLocation(e);
+        setFormData((prev)=>({
+            ...prev,
+            locationInfo:{
+                ...prev.locationInfo,
+                lt:e.lat,
+                lng:e.lng,
+            },
+        }))
+    }
+
   return (
     <div  className='space-y-8 m-2'>
         {/*Header Section*/}
@@ -17,13 +34,29 @@ export default function LocationInfoStep() {
         </div>
         {/* location input section*/}
         <div className='max-w-4xl'>
-            <LocationPicker setLocation={setLocation}/>
+            <LocationPicker setLocation={handleSelectLocation}/>
         </div>
 
         <div className='space-y-6 grid grid-cols-1'>
             <div className='flex gap-5'>
                 <label className='fonts-[Inter] text-cyan-700 text-lg'>Location Description :</label>
-                <textarea className='w-[70%] px-4 py-4 shadow-lg -top-2 content-start rounded-xl focus:ring-4 focus:ring-cyan-600 focus:border-cyan-600 backdrop-blur-sm'></textarea>
+                <textarea className={`w-[70%] px-4 py-4 shadow-lg -top-2 content-start rounded-xl focus:ring-4 focus:ring-cyan-600 focus:border-cyan-600 backdrop-blur-sm
+                ${error.description ? "border-red-400 focus:border-red-500 focus:ring-red-500/20":"border-gray-200 hover:border-gray-300"}`}
+                value={formData.locationInfo.description}
+                onChange={(e)=>
+                    setFormData((prev)=>({
+                        ...prev,
+                        locationInfo:{
+                            ...prev.locationInfo,
+                            description:e.target.value
+                        }
+                    }))
+                }/>
+                {error.description && (
+                    <div className='absolute -bottom-6 left-0 flex items-center text-red-500 text-sm'>
+                    {error.description}
+                    </div>
+                )}
 
             </div>
             

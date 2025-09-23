@@ -1,13 +1,38 @@
 import { User } from 'lucide-react'
 import React, { useState } from 'react'
+import { useFormContext } from '../context/ReportFormContext';
 
 export default function PersonalInfo() {
 
   const [isAnonymous, setIsAnonymous] = useState(false);
+  const{formData,setFormData,error}=useFormContext();
+
 
   const handleToggle = () => {
-    setIsAnonymous((prev) => !prev); // toggle value
+    setIsAnonymous(prev=>{
+        const newValue=!prev;
+
+        setFormData(preData=>({
+            ...preData,
+            personalInfo:{
+                ...preData.personalInfo,
+                annonimity:newValue
+            }
+            
+        }));
+        return newValue;
+    })
   };
+
+  const handleChangeInputs=(field,value)=>{
+    setFormData(preData=>({
+        ...preData,
+        personalInfo:{
+            ...preData.personalInfo,
+            [field]:value
+        }
+    }))
+  }
   return (
     <div  className='space-y-5'>
             {/*Header Section*/}
@@ -26,8 +51,14 @@ export default function PersonalInfo() {
                 <div>
                     <input 
                     type='text'
-                    className={`w-full px-2 py-2 border-2  border-cyan-300 text-cyan-700 rounded-xl focus:right-4 focus:ring-cyan-600 focus:border-cyan-600 transition-all duration-200 bg-white/50 backdrop-blur-sm`}
-                    />
+                    className={`w-full px-2 py-2 border-2  border-cyan-300 text-cyan-700 rounded-xl focus:right-4 focus:ring-cyan-600 focus:border-cyan-600 transition-all duration-200 bg-white/50 backdrop-blur-sm ${error.name ? "border-red-400 focus:border-red-500 focus:ring-red-500/20":"border-gray-200 hover:border-gray-300"}`}
+                    value={formData.personalInfo.name}
+                    onChange={(e)=> handleChangeInputs('name',e.target.value)}/>
+                    {error.name && (
+                    <div className='absolute -bottom-6 left-0 flex items-center text-red-500 text-sm'>
+                    {error.name}
+                    </div>
+                )}
                 </div>
             </div>
 
@@ -38,8 +69,15 @@ export default function PersonalInfo() {
                 <div>
                     <input 
                     type='text'
-                    className={`w-full px-2 py-2 border-2 rounded-xl  border-cyan-300 focus:right-4 text-cyan-700 focus:ring-cyan-600 focus:border-cyan-600 transition-all duration-200 bg-white/50 backdrop-blur-sm`}
+                    className={`w-full px-2 py-2 border-2 rounded-xl  border-cyan-300 focus:right-4 text-cyan-700 focus:ring-cyan-600 focus:border-cyan-600 transition-all duration-200 bg-white/50 backdrop-blur-sm ${error.mobile ? "border-red-400 focus:border-red-500 focus:ring-red-500/20":"border-gray-200 hover:border-gray-300"}`}
+                    value={formData.personalInfo.mobile}
+                    onChange={(e)=> handleChangeInputs('mobile',e.target.value)}
                     />
+                    {error.mobile && (
+                    <div className='absolute -bottom-6 left-0 flex items-center text-red-500 text-sm'>
+                    {error.mobile}
+                    </div>
+                )}
                 </div>
             </div>
             <div className='space-y-2'>
@@ -49,8 +87,16 @@ export default function PersonalInfo() {
                 <div>
                     <input 
                     type='email'
-                    className={`w-full px-2 py-2 border-2 rounded-xl  border-cyan-300 focus:right-4 text-cyan-700 focus:ring-cyan-600 focus:border-cyan-600 transition-all duration-200 bg-white/50 backdrop-blur-sm`}
+                    className={`w-full px-2 py-2 border-2 rounded-xl  border-cyan-300 focus:right-4 text-cyan-700 focus:ring-cyan-600 focus:border-cyan-600 transition-all duration-200 bg-white/50 backdrop-blur-sm ${error.email? "border-red-400 focus:border-red-500 focus:ring-red-500/20":"border-gray-200 hover:border-gray-300"}`
+                    }
+                    value={formData.personalInfo.email}
+                    onChange={(e)=> handleChangeInputs('email',e.target.value)}
                     />
+                    {error.email && (
+                    <div className='absolute -bottom-6 left-0 flex items-center text-red-500 text-sm'>
+                    {error.email}
+                    </div>
+                )}
                 </div>
             </div>
             {/* Toggle button */}

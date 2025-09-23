@@ -6,11 +6,12 @@ import LocationInfoStep from './LocationInfoStep';
 import IncidentSection from './IncidentSection';
 import PersonalInfo from './PersonalInfo';
 import EvidenceInfo from './EvidenceInfo';
+import axios from 'axios';
 
 export default function ReportingForm() {
 
     //call context hook
-  const{steps,currentStep}=useFormContext();
+  const{steps,currentStep,nextStep,prevStep,formData}=useFormContext();
 
   //form steps return functions
   const retrieveStepContent=()=>{
@@ -29,6 +30,34 @@ export default function ReportingForm() {
 
     }
   }
+
+  const handleSubmit=async()=>{
+
+    try{
+
+        const formDataToSend=new FormData();
+
+        formDataToSend.append("locationInfo", JSON.stringify(formData.locationInfo));
+        formDataToSend.append("incidentInfo", JSON.stringify(formData.incidentInfo));
+        formDataToSend.append("personalInfo", JSON.stringify(formData.personalInfo));
+
+        formData.evidences.forEach((file) => {
+        formDataToSend.append("files", file); // 'files' must match multer field name
+        });
+
+        const response=await axios.post("http://localhost:8081/api/report/create",formDataToSend,{
+            headers:{"Content-Type":"multipart/form-data"},
+        }
+            
+        )
+        alert("Submit SuccessFully");
+        console.log(response.data);
+    }catch(error){
+        console.error("Issue in submitting report:",error);
+        alert("Failed to submit report.");
+    }
+    
+  };
  
   return (
     <div className='max-w-4xl mx-auto p-6'>
@@ -89,16 +118,19 @@ export default function ReportingForm() {
 
         {/*forward and back*/}
         <div className='flex justify-between items-center '>
-            <button className={`flex items-center px-8 py-4 rounded-2xl font-semibold transition-all duration-200 ${currentStep===1?"bg-gray-100 text-gray-400 cursor-not-allowed ": "hover:bg-gray-50 shadow-lg hover:shadow-xl border border-gray-200 text-cyan-700 transform hover:translate-y-1:"}`}>
+            <button className={`flex items-center px-8 py-4 rounded-2xl font-semibold transition-all duration-200 ${currentStep===1?"bg-gray-100 text-gray-400 cursor-not-allowed ": "hover:bg-gray-50 shadow-lg hover:shadow-xl border border-gray-200 text-cyan-700 transform hover:translate-y-1:"}`}
+            onClick={prevStep}>
                 <ChevronLeft className='w-5 h-5 mr-2'/>Previous
             </button>
             {currentStep<steps.length?(
                 <button className={`flex items-center px-8 py-4 rounded-2xl font-semibold 
-                bg-gradient-to-r  from-cyan-500 to-cyan-700 transition-all duration-200 text-slate-100 hover:shadow-xl transform hover:translate-y-1`}>
+                bg-gradient-to-r  from-cyan-500 to-cyan-700 transition-all duration-200 text-slate-100 hover:shadow-xl transform hover:translate-y-1`}
+                onClick={nextStep}>
                     Continue<ChevronRight className='w-5 h-5 mr-2'/>
                 </button>
             ):(
-                <button className='flex items-center px-10 py-4 bg-gradient-to-r  from-cyan-500 to-cyan-700 text-white rounded-2xl font-semibold hover:from-cyan-900 hover:to-blue-900 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:translate-y-1'>
+                <button className='flex items-center px-10 py-4 bg-gradient-to-r  from-cyan-500 to-cyan-700 text-white rounded-2xl font-semibold hover:from-cyan-900 hover:to-blue-900 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:translate-y-1'
+                onClick={handleSubmit}>
                 Submit Report
             </button>
             )}

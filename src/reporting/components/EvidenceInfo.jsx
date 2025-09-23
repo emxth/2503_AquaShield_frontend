@@ -1,9 +1,11 @@
 import { Camera } from 'lucide-react'
 import React, { useState } from 'react'
+import { useFormContext } from '../context/ReportFormContext';
 
 export default function EvidenceInfo() {
 
     const [uploadedFiles, setUploadedFiles] = useState([]);
+    const{formData,setFormData}=useFormContext();
 
     const handleFileUpload=(e)=>{
         const files = Array.from(e.target.files);
@@ -13,7 +15,13 @@ export default function EvidenceInfo() {
     }));
     setUploadedFiles([...uploadedFiles, ...newFiles]);
 
+    setFormData(prev=>({
+      ...prev,
+      evidences:[...prev.evidences,...files]
+    }));
     }
+
+
 
 
     const removeFile = (index) => {

@@ -11,13 +11,14 @@ const markerIcon = new L.Icon({
 });
 
 // Component that handles clicks
-function LocationMarker({ position, setPosition }) {
+function LocationMarker({ position, setPosition, setLocation }) {
   const map = useMap();
 
   useMapEvents({
     click(e) {
       const coords = [e.latlng.lat, e.latlng.lng];
       setPosition(coords);
+      setLocation({ lat: e.latlng.lat, lng: e.latlng.lng });
       map.flyTo(e.latlng, map.getZoom()); // smooth fly on click
     }
   });
@@ -47,7 +48,7 @@ export default function LocationPicker({ setLocation }) {
       navigator.geolocation.getCurrentPosition((pos) => {
         const coords = [pos.coords.latitude, pos.coords.longitude];
         setCurrentLocation(coords);
-        setMarkerPos(coords);
+        setMarkerPos([pos.coords.latitude, pos.coords.longitude]);
         setLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude });
       });
     }
@@ -67,13 +68,11 @@ export default function LocationPicker({ setLocation }) {
       {/* Auto fly when GPS updates */}
       <FlyToLocation coords={currentLocation} />
 
-      {/* Marker */}
+      {/* Marker with click handling */}
       <LocationMarker
         position={markerPos}
-        setPosition={(latlng) => {
-          setMarkerPos(latlng);
-          setLocation({ lat: latlng[0], lng: latlng[1] });
-        }}
+        setPosition={setMarkerPos}
+        setLocation={setLocation}
       />
     </MapContainer>
   );
