@@ -41,11 +41,11 @@ export default function ReportingForm() {
         formDataToSend.append("incidentInfo", JSON.stringify(formData.incidentInfo));
         formDataToSend.append("personalInfo", JSON.stringify(formData.personalInfo));
 
-        console.log(formData.locationInfo.lat);
+        console.log(formData.evidences);
 
         formData.evidences.forEach((file) => {
-        formDataToSend.append("files", file); // 'files' must match multer field name
-        });
+            formDataToSend.append("evidence", file);
+            });
 
         const response=await axios.post("http://localhost:8081/api/report/create",formDataToSend,{
             headers:{"Content-Type":"multipart/form-data"},
