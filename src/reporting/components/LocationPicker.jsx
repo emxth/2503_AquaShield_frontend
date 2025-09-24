@@ -16,9 +16,15 @@ function LocationMarker({ position, setPosition, setLocation }) {
 
   useMapEvents({
     click(e) {
-      const coords = [e.latlng.lat, e.latlng.lng];
+      const coords = [e.latlng.lng, e.latlng.lat];
       setPosition(coords);
-      setLocation({ lat: e.latlng.lat, lng: e.latlng.lng });
+      setLocation({
+        type: "Point",
+        coordinates: [e.latlng.lng, e.latlng.lat], 
+        description: "", 
+        lat: e.latlng.lat, 
+        lng: e.latlng.lng, 
+    });
       map.flyTo(e.latlng, map.getZoom()); // smooth fly on click
     }
   });
@@ -49,7 +55,13 @@ export default function LocationPicker({ setLocation }) {
         const coords = [pos.coords.latitude, pos.coords.longitude];
         setCurrentLocation(coords);
         setMarkerPos([pos.coords.latitude, pos.coords.longitude]);
-        setLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+        setLocation({
+          type: "Point",
+          coordinates: [pos.coords.longitude, pos.coords.latitude], // lng first
+          description: "",
+          lat: pos.coords.latitude, // optional for UI
+          lng: pos.coords.longitude, // optional for UI
+        });
       });
     }
   }, [setLocation]);

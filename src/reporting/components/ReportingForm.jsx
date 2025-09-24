@@ -41,6 +41,8 @@ export default function ReportingForm() {
         formDataToSend.append("incidentInfo", JSON.stringify(formData.incidentInfo));
         formDataToSend.append("personalInfo", JSON.stringify(formData.personalInfo));
 
+        console.log(formData.locationInfo.lat);
+
         formData.evidences.forEach((file) => {
         formDataToSend.append("files", file); // 'files' must match multer field name
         });

@@ -9,9 +9,11 @@ export const FormProvider=({children})=>{
     const[error,setErrors]=useState({});
     const[formData,setFormData]=useState({
         locationInfo:{
-            lt:"",
-            lng:"",
-            description:"",
+            type: "Point",
+            coordinates: [], 
+            lat: "",         
+            lng: "",         
+            description: ""
 
         },
         incidentInfo:{
