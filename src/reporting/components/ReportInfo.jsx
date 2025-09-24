@@ -7,8 +7,8 @@ const ReportInfo = ({report,onClose}) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
       <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
-        {/* Header Section */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white">
+        
+        <div className="bg-gradient-to-r from-cyan-500 to-cyan-700 p-6 text-white">
           <h1 className="text-2xl font-bold mb-2">Report Details</h1>
           <div className="flex items-center bg-green-100 text-green-800 px-4 py-2 rounded-lg inline-flex">
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -22,8 +22,8 @@ const ReportInfo = ({report,onClose}) => {
         <div className="p-6">
           {/* Report Summary */}
           <div className="mb-8">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-              <svg className="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <h2 className="text-xl font-semibold text-cyan-600 mb-4 flex items-center">
+              <svg className="w-5 h-5 mr-2 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
               </svg>
               Report Summary
@@ -56,7 +56,7 @@ const ReportInfo = ({report,onClose}) => {
               </div>
             </div>
             
-            <button className="mt-6 flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            <button className="mt-6 flex items-center px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
             onClick={()=>{
               const[lng,lat]=report.location.coordinates;
               const url=`https://www.google.com/maps?q=${lat},${lng}`;
@@ -71,8 +71,8 @@ const ReportInfo = ({report,onClose}) => {
           
           {/* Incident Information */}
           <div>
-            <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-              <svg className="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <h2 className="text-xl font-semibold text-cyan-600 mb-4 flex items-center">
+              <svg className="w-5 h-5 mr-2 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
               Incident Information
@@ -97,8 +97,8 @@ const ReportInfo = ({report,onClose}) => {
           </div>
            {/* evidences Information */}
           <div>
-            <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center mt-4">
-              <svg className="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <h2 className="text-xl font-semibold text-cyan-600 mb-4 flex items-center mt-4">
+              <svg className="w-5 h-5 mr-2 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
               Evidences
@@ -117,7 +117,7 @@ const ReportInfo = ({report,onClose}) => {
         
         {/* Footer */}
         <div className="bg-gray-100 px-6 py-4 text-center text-sm text-gray-500">
-          <p>© 2025 Illegal Fishing Reporter App. All rights reserved.</p>
+          <p className='text-cyan-600'>© 2025 Illegal Fishing Reporter App. All rights reserved.</p>
         </div>
       </div>
     </div>
