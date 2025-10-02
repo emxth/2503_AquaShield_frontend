@@ -2,7 +2,17 @@ import React from 'react'
 
 const Header = () => {
   return (
-    <div>Header</div>
+    <div>
+        {/*------ Left Side------*/}
+        <div>
+
+        </div>
+
+        {/*------ Right Side------*/}
+        <div>
+            
+        </div>
+    </div>
   )
 }
 
