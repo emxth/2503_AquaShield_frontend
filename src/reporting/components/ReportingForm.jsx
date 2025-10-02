@@ -1,5 +1,5 @@
 import { Check, ChevronLeft, ChevronRight } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
 import { useFormContext } from '../context/ReportFormContext'
 import { stepIcons } from '../utility/icon';
 import LocationInfoStep from './LocationInfoStep';
@@ -7,12 +7,13 @@ import IncidentSection from './IncidentSection';
 import PersonalInfo from './PersonalInfo';
 import EvidenceInfo from './EvidenceInfo';
 import axios from 'axios';
+import MyReport from './MyReport';
 
 export default function ReportingForm() {
 
     //call context hook
   const{steps,currentStep,nextStep,prevStep,formData}=useFormContext();
-
+  const[showAllReports,setShowAllReports]=useState(false);
   //form steps return functions
   const retrieveStepContent=()=>{
 
@@ -36,6 +37,7 @@ export default function ReportingForm() {
     try{
 
         const formDataToSend=new FormData();
+        
 
         formDataToSend.append("locationInfo", JSON.stringify(formData.locationInfo));
         formDataToSend.append("incidentInfo", JSON.stringify(formData.incidentInfo));
@@ -53,6 +55,7 @@ export default function ReportingForm() {
             
         )
         alert("Submit SuccessFully");
+        setShowAllReports(true);
         console.log(response.data);
     }catch(error){
         console.error("Issue in submitting report:",error);
@@ -62,7 +65,12 @@ export default function ReportingForm() {
   };
  
   return (
+  <>
+  
+    {!showAllReports?(
     <div className='max-w-4xl mx-auto p-6'>
+        
+      
         <p className='text-2xl text-cyan-700 mb-3 font-[Lexend] font-semibold text-center'>Report Illeagal Fishing Activity</p>
         <div className='mb-12'>
         <div className='flex items-center justify-between mb-6'>
@@ -139,7 +147,9 @@ export default function ReportingForm() {
             
 
             
-        </div>
-    </div>
+        </div></div>):(<>
+        
+            <MyReport/></>)}
+        </>
   )
 }

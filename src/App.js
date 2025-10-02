@@ -23,12 +23,11 @@ function App() {
         >
           Learn React
         </a>
-      </header>
+      </header>*/}
       <FormProvider>
         <ReportingForm />
-      </FormProvider>*/}
-      <MyReport />
-      {/*<ReportInfo />*/}
+      </FormProvider>
+
 
 
     </div>
