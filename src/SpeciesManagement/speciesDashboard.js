@@ -208,7 +208,8 @@ import axios from "axios";
 
 function SpeciesDashboard() {
   const historyRef = useRef(null);
-  const [setScrollToHistory] = useState(false);
+
+  const [history, setHistory] = useState([]);
 
   const [stats, setStats] = useState({
     totalCount: 0,
@@ -220,10 +221,10 @@ function SpeciesDashboard() {
   });
 
   const handleHistoryClick = () => {
-    setScrollToHistory(true);
-    historyRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (historyRef.current) {
+      historyRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
-
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
@@ -234,6 +235,20 @@ function SpeciesDashboard() {
       }
     };
     fetchDashboardData();
+  }, []);
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        const res = await fetch("http://localhost:8081/species/specieshistory");
+        const data = await res.json();
+        setHistory(data);
+      } catch (error) {
+        console.error("Error fetching history:", error);
+      }
+    };
+
+    fetchHistory();
   }, []);
 
   const pieData = [
@@ -359,12 +374,27 @@ function SpeciesDashboard() {
               </tr>
             </thead>
             <tbody>
-              {stats.lineData.slice(-5).reverse().map((entry, i) => (
-                <tr key={i} className={i % 2 === 0 ? "bg-gray-50" : ""}>
-                  <td className="p-2 border">{entry.month}-2025</td>
-                  <td className="p-2 border">Species added</td>
+              {history.length > 0 ? (
+                history.map((item, i) => (
+                  <tr key={i} className={i % 2 === 0 ? "bg-gray-50" : ""}>
+                    <td className="p-2 border">
+                      {new Date(item.performedAt).toLocaleString()}
+                    </td>
+                    <td className="p-2 border">
+                      {item.action.charAt(0).toUpperCase() + item.action.slice(1)}
+                      {item.speciesId
+                        ? ` - ${item.speciesId.CommonName || item.speciesId.ScientificName}`
+                        : ""}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td className="p-2 border text-center" colSpan="2">
+                    No recent activity
+                  </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
