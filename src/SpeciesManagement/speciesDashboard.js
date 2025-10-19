@@ -357,11 +357,11 @@ function SpeciesDashboard() {
         </div>
 
         {/* Export Report */}
-        <div className="mb-6">
+        {/* <div className="mb-6">
           <button className="bg-[#17A9D3] hover:bg-[#0E6C91] transition text-white font-semibold py-2 px-4 rounded-lg shadow">
             Export Report
           </button>
-        </div>
+        </div> */}
 
         {/* Activity Table */}
         <div ref={historyRef} className="bg-white rounded-2xl shadow p-4">
