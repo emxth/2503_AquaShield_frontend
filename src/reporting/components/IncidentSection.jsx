@@ -13,6 +13,8 @@ export default function IncidentSection() {
     const{formData,setFormData,error}=useFormContext();
     const {incidentTypes,loading,error:typeError}=useIncidentTypes();
 
+    console.log(incidentTypes);
+
 
     useEffect(() => {
         
