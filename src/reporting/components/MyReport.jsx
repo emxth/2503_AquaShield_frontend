@@ -5,16 +5,18 @@ import ReportInfo from './ReportInfo';
 
 const MyReport = () => {
   const [sort, setSort] = useState('none');
-  const [activeTab, setActiveTab] = useState('All Reports');
+  const [activeTab, setActiveTab] = useState('ALL REPORTS');
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const[selectReport,setSelectReport]=useState(null);
 
+  const userID="68ebd8110b317b24b39fbccc";
+
   useEffect(() => {
     const getReports = () => {
       axios
-        .get("http://localhost:8081/api/report/getReports")
+        .get(`http://localhost:8081/api/report/getReports/${userID}`)
         .then((res) => {
           console.log("API Response:", res);
           
@@ -56,7 +58,7 @@ const MyReport = () => {
     setSelectReport(null);
   }
 
-  const filteredReports = activeTab === 'All Reports' 
+  const filteredReports = activeTab === 'ALL REPORTS' 
     ? reports 
     : reports.filter(report => report.status === activeTab);
 
@@ -87,16 +89,16 @@ const MyReport = () => {
           </div>
       ):(
         <div>
-            {/* Header */}
+            {/* Header 
           <div className='text-center flex justify-center items-center'>
             <h2 className='text-2xl mt-5 text-cyan-700 mb-3 font-[Lexend] font-semibold text-center'>My Reports</h2>
-          </div>
+          </div>*/}
 
           <main className="container mx-auto p-4">
             {/* Navigation Tabs */}
             <div className="mb-6">
               <div className="flex flex-wrap border-b border-gray-200 justify-center gap-9">
-                {['All Reports', 'Verified', 'In Review', 'Restricted'].map((tab) => (
+                {['ALL REPORTS', 'VERIFIED', 'PENDING', 'REJECT'].map((tab) => (
                   <button
                     key={tab}
                     className={`py-2 px-4 font-medium ${activeTab === tab ? 'text-cyan-400 border-b-2 border-cyan-400' : 'text-cyan-700 hover:text-gray-700'}`}
@@ -107,7 +109,7 @@ const MyReport = () => {
                 ))}
               </div>
 
-              <div className="flex justify-center items-center mt-2 md:mt-8">
+              <div className="flex justify-center items-center mt-2 md:mt-8 ml-10">
                 <label htmlFor="sort" className="mr-2 text-cyan-700">Sort by:</label>
                 <select 
                   id="sort"
@@ -124,7 +126,7 @@ const MyReport = () => {
 
             {/* Reports Grid */}
             <div className="flex justify-center">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-center max-w-[80%]">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center  max-w-[80%]">
                 {filteredReports.length > 0 ? (
                   filteredReports.map((report) => (
                     <div key={report._id} className="bg-white rounded-lg shadow-md p-4 border-l-4 

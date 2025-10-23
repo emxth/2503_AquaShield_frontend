@@ -6,6 +6,8 @@ import ReportDetails from './reporting/components/MyReport';
 import MyReport from './reporting/components/MyReport';
 import ReportInfo from './reporting/components/ReportInfo';
 import { useEffect } from 'react';
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import ReportPage from './reporting/pages/ReportPage';
 
 
 function App() {
@@ -52,10 +54,22 @@ function App() {
         >
           Learn React
         </a>
-      </header>*/}
-      <FormProvider>
+      </header>
+      
         <ReportingForm />
+      </FormProvider>*/}
+      <FormProvider>
+        <Router>
+          <Routes>
+            <Route path='/report' element={<ReportPage />}>
+              <Route path='reportIncident' element={<ReportingForm />} />
+              <Route path='myReport' element={<MyReport />} />
+            </Route>
+            <Route path='*' element={<Navigate to="/report/reportIncident" replace />} />
+          </Routes>
+        </Router>
       </FormProvider>
+
 
 
 
