@@ -1,6 +1,7 @@
 import { FileText } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useFormContext } from '../context/ReportFormContext';
+import { useIncidentTypes } from '../hook/useIncidentTypes';
 
 export default function IncidentSection() {
 
@@ -8,15 +9,17 @@ export default function IncidentSection() {
     const[selectIncidentType,setSelectIncidentType]=useState("");
     const[selectedSpecies,setSpecies]=useState("");
 
-    //context hook
+    
     const{formData,setFormData,error}=useFormContext();
+    const {incidentTypes,loading,error:typeError}=useIncidentTypes();
+
 
     useEffect(() => {
         
     }, []);
 
 //mock data for drop down
-    const  incidentTypes = [
+    const  incidentType = [
         { id: 1, name: "Fishing without license"},
         { id: 2, name: "Fishing in restricted area"},
         { id: 3, name: "Using explosives"},
@@ -58,6 +61,20 @@ export default function IncidentSection() {
             <div ><FileText className='w-6 h-6 text-center text-cyan-700 '/></div>
             <h2 className='text-2xl text-cyan-700 mb-3 font-[Lexend] font-semibold text-center'>Report Details</h2>
         </div>
+
+        {loading && (
+                <div className="text-center text-cyan-600">
+                    Loading incident types...
+                </div>
+            )}
+
+            {typeError && (
+                <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
+                    <strong>Note:</strong> Using cached data. {typeError}
+                </div>
+            )}
+
+
 
         {/*input fields*/}
         <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
@@ -104,7 +121,7 @@ export default function IncidentSection() {
                 <label className='block text-lg text-cyan-700 font-[Inter] mb-1 font-semibold text-left'>
                 Incident Type
                 </label>
-                <select className={`w-full px-2 py-2 border-2  text-cyan-700 border-cyan-300 rounded-xl focus:ring-4 focus:ring-cyan-800 transition-all duration-200 bg-white/50 backdrop-blur-sm hover:border-cyan-700 ${error.incidentType ? "border-red-400 focus:border-red-500 focus:ring-red-500/20":"border-gray-200 hover:border-gray-300"}`}
+                <select className={`w-full px-2 py-2 border-2 text-cyan-700 border-cyan-300 rounded-xl focus:ring-4 focus:ring-cyan-800 transition-all duration-200 bg-white/50 backdrop-blur-sm hover:border-cyan-700 ${error.incidentType ? "border-red-400 focus:border-red-500 focus:ring-red-500/20":"border-gray-200 hover:border-gray-300"}`}
                  onChange={(e)=> handleChangeInputs('incidentType',e.target.value)}
                  value={formData.incidentInfo.incidentType}>
                     <option>Select Incident</option>

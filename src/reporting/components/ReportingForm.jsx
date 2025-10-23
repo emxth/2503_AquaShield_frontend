@@ -8,6 +8,7 @@ import PersonalInfo from './PersonalInfo';
 import EvidenceInfo from './EvidenceInfo';
 import axios from 'axios';
 import MyReport from './MyReport';
+import { offlineService } from '../../services/offlineService';
 
 export default function ReportingForm() {
 
@@ -49,14 +50,33 @@ export default function ReportingForm() {
             formDataToSend.append("evidence", file);
             });
 
-        const response=await axios.post("http://localhost:8081/api/report/create",formDataToSend,{
+        if(offlineService.isOnline()){
+
+            const response=await axios.post("http://localhost:8081/api/report/create",formDataToSend,{
             headers:{"Content-Type":"multipart/form-data"},
-        }
-            
-        )
+        });
         alert("Submit SuccessFully");
         setShowAllReports(true);
         console.log(response.data);
+
+        }else{
+
+            const reportData={
+                locationInfo: formData.locationInfo,
+                incidentInfo: formData.incidentInfo,
+                personalInfo: formData.personalInfo,
+                evidences:formData.evidences,
+
+                timestamp:new Date().toISOString()
+            };
+
+            await offlineService.savePendingReport(reportData);
+            alert("Report saved offline. It will be submitted when you're back online.");
+            setShowAllReports(true);
+        }
+
+        
+        
     }catch(error){
         console.error("Issue in submitting report:",error);
         alert("Failed to submit report.");
