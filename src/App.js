@@ -8,6 +8,7 @@ import ReportInfo from './reporting/components/ReportInfo';
 import { useEffect } from 'react';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import ReportPage from './reporting/pages/ReportPage';
+import FeoReport from './feoReporting/components/FEOReport';
 
 
 function App() {
@@ -57,7 +58,7 @@ function App() {
       </header>
       
         <ReportingForm />
-      </FormProvider>*/}
+      </FormProvider>
       <FormProvider>
         <Router>
           <Routes>
@@ -68,7 +69,9 @@ function App() {
             <Route path='*' element={<Navigate to="/report/reportIncident" replace />} />
           </Routes>
         </Router>
-      </FormProvider>
+      </FormProvider>*/}
+
+      <FeoReport />
 
 
 
