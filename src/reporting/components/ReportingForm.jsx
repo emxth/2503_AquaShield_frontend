@@ -36,9 +36,10 @@ export default function ReportingForm() {
   const handleSubmit=async()=>{
 
     try{
+        const userID="68f6208c73431dcda27d0eea";
 
         const formDataToSend=new FormData();
-        
+        formDataToSend.append('userId', userID);
 
         formDataToSend.append("locationInfo", JSON.stringify(formData.locationInfo));
         formDataToSend.append("incidentInfo", JSON.stringify(formData.incidentInfo));
