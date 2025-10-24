@@ -58,9 +58,7 @@ const AppContextProvider = (props) => {
   }, [token]);
 
   return (
-    <AppContext.Provider value={value}>
-      {props.children}
-    </AppContext.Provider>
+    <AppContext.Provider value={value}>{props.children}</AppContext.Provider>
   );
 };
 
