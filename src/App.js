@@ -86,64 +86,6 @@ function App() {
         <Footer />
       </FormProvider>
     </BrowserRouter>
-    //-----------------
-    // <BrowserRouter>
-    //   <Header />
-
-    //   <Routes>
-    //     <Route path='/' element={<Hero />} />
-
-    //       {/* species Managemnt */}
-    //       <Route path="/speciesDashboard" element={<SpeciesDashboard />} />
-    //       <Route path="/AddSpecies" element={<AddSpecies />} />
-    //       <Route path="/viewAllSpecies" element={<ViewAllSpecies />} />
-    //       <Route path="/viewOneSpecies/:id" element={<ViewOneSpecies />} />
-    //       <Route path="/SpeciesAddRequest" element={<SpeciesAddRequest />} />
-    //       <Route path="/AddNewSpeciesByRequest/:id" element={<AddNewSpeciesByRequest />} />
-    //       <Route path="/AddSpeciesRequest" element={<AddNewSpeciesRequest />} />
-    //       <Route path="/FeoReports" element={<FeoReport />} />
-          
-    //   </Routes>
-
-    //   <Footer />
-    // </BrowserRouter>
-    //-----------------
-    // <div className="App">
-    //   {/*header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       Edit <code>src/App.js</code> and save to reload.
-    //     </p>
-    //     <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a>
-    //   </header>
-      
-    //     <ReportingForm />
-    //   </FormProvider>
-    //   <FormProvider>
-    //     <Router>
-    //       <Routes>
-    //         <Route path='/report' element={<ReportPage />}>
-    //           <Route path='reportIncident' element={<ReportingForm />} />
-    //           <Route path='myReport' element={<MyReport />} />
-    //         </Route>
-    //         <Route path='*' element={<Navigate to="/report/reportIncident" replace />} />
-    //       </Routes>
-    //     </Router>
-    //   </FormProvider>*/}
-
-    //   <FeoReport />
-
-
-
-
-    // </div>
   );
 }
 
