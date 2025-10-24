@@ -362,6 +362,7 @@ function SpeciesDashboard() {
             Export Report
           </button>
         </div> */}
+        
 
         {/* Activity Table */}
         <div ref={historyRef} className="bg-white rounded-2xl shadow p-4">
