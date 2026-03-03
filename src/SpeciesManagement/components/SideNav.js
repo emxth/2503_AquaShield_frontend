@@ -22,9 +22,9 @@ function SideNav({ onHistoryClick }) {
       {/* Profile Section */}
       <div className="flex flex-col items-center mb-6">
         <div className="h-20 w-20 rounded-full bg-[#17A9D3] flex items-center justify-center text-xl font-bold">
-          U
+          A
         </div>
-        <span className="mt-2 font-semibold">User Name</span>
+        <span className="mt-2 font-semibold">Arshvinth</span>
       </div>
 
       <hr className="border-gray-500 mb-4" />

@@ -4,7 +4,7 @@ import Navbar from "./components/SideNav.js";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-function ViewOneSpecies() {
+function ViewOneSpecies(props) {
   const { id } = useParams();
 
   const [species, setSpecies] = useState(null);
@@ -14,7 +14,6 @@ function ViewOneSpecies() {
   const [showUpdateConfirm, setShowUpdateConfirm] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [dateError, setDateError] = useState(""); // <-- Date validation state
-
   // Fetch species
   useEffect(() => {
     const fetchSpecies = async () => {
